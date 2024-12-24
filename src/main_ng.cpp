@@ -1,7 +1,5 @@
 #include"barnes-hutt.hpp"
 #include"graphics.hpp"
-#include<sstream>
-#include<iomanip>
 
 #define NUM_THREADS 8
 
@@ -21,7 +19,6 @@ int main(){
 
     //initial condition: create a circular-ish distribution
     makeRealisticGalaxy(particles, N);
-    //makeDoubleGalaxies(particles, N/2, N/2);
 
     int time = 0;
     double start = omp_get_wtime();
@@ -33,11 +30,7 @@ int main(){
         //nestedLoopAlgorithm(particles,dt,time );
 
 
-        // -- set acc to zero and remove particles that crossed the borders --
-        for(auto it = particles.begin(); it != particles.end(); it++){
-            it->a_x = 0;
-            it->a_y = 0;
-        }
+        // -- remove particles that crossed the borders --
         for(auto it = particles.begin(); it != particles.end();){
             if(it->x <= -DIM || it->x >= DIM || it->y >= DIM || it->y <= -DIM){
                 it = particles.erase(it);
